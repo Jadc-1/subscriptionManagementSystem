@@ -55,5 +55,6 @@ class UI:
     def total_value(self):
         print(f"O valor total mensal é: {self.subscription_service.total_value()}")
 
-UI().start()
+if __name__ == "__main__":
+    UI().start()
 

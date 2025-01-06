@@ -105,5 +105,5 @@ class SubscriptionManagement():
         plt.show()
 
 sm = SubscriptionManagement(engine)
-#subscription = Subscription(empresa='netflix', site='netflix.com.br', data_assinatura=date.today(), valor= '150')
+#subscription = Subscription(empresa='vivo', site='vivo.com.br', data_assinatura=date.today(), valor= '150')
 
