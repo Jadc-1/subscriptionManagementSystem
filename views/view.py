@@ -1,6 +1,6 @@
 import __init__
 from models.database import engine
-from models.model import Subscription
+from models.model import Subscription, Payments
 from sqlmodel import Session, select
 from datetime import date
 
@@ -19,6 +19,11 @@ class SubscriptionManagement():
             statement = select(Subscription) ##Busque os dados da tabela subscription (isso é uma query)
             results = session.exec(statement).all() ##o exec é utilizado para executar querys, e estamos falando para executar statement, que vai selecionar a tabela inteira
             return results
+
+    def pay(self, subscription: Subscription):
+        with Session(self.engine) as session:
+            statement = select(Payments)
+
 
 sm = SubscriptionManagement(engine)
 #subscription = Subscription(empresa='netflix', site='netflix.com.br', data_assinatura=date.today(), valor= '150')
