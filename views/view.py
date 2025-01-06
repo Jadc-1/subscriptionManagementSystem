@@ -19,7 +19,15 @@ class SubscriptionManagement():
             statement = select(Subscription) ##Busque os dados da tabela subscription (isso é uma query)
             results = session.exec(statement).all() ##o exec é utilizado para executar querys, e estamos falando para executar statement, que vai selecionar a tabela inteira
             return results
-
+        
+    def delete(self, id):
+        with Session(self.engine) as session:
+            statement = select(Subscription).where(Subscription.id == id)
+            result = session.exec(statement).one()
+            session.delete(result)
+            session.commit()
+        
+        
     def _has_pay(self, results):  ##colocamos _ quando a função não será acessado por fora
         for result in results:
             if result.date.month() == date.today().month:
@@ -41,9 +49,20 @@ class SubscriptionManagement():
             session.add(pay)
             session.commit()
 
-    
+    def total_value(self):
+        with Session(self.engine) as session: 
+        # Cria uma consulta (statement) para selecionar todos os registros da tabela Subscription
+            statement = select(Subscription) 
+        # Executa a consulta e retorna todos os resultados como uma lista
+            results = session.exec(statement).all() 
 
+        total = 0
+        # Itera sobre cada registro (result) retornado pela consulta
+        for result in results:
+            total += result.valor  # Soma o valor de cada assinatura ao total
+
+        return float(total)
 
 sm = SubscriptionManagement(engine)
-#subscription = Subscription(empresa='netflix', site='netflix.com.br', data_assinatura=date.today(), valor= '150')
-
+subscription = Subscription(empresa='netflix', site='netflix.com.br', data_assinatura=date.today(), valor= '150')
+sm.create(subscription)
