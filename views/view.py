@@ -36,7 +36,7 @@ class SubscriptionManagement():
     
     def pay(self, subscription: Subscription):
         with Session(self.engine) as session:
-            statement = select(Payments).join(Subscription).where(Subscription.empresa == "subscription.empresa") ##To verificando se a empresa que eu quero pagar assinatura, ja está paga ou não
+            statement = select(Payments).join(Subscription).where(Subscription.empresa == subscription.empresa) ##To verificando se a empresa que eu quero pagar assinatura, ja está paga ou não
             results = session.exec(statement).all()           
             
             if self._has_pay(results): ##Estamos utilizando a função has pay, para verificar se ja esta pago
@@ -76,10 +76,35 @@ class SubscriptionManagement():
                 year -= 1
         return last_12_months[::-1]
     
-    def 
+    def _get_values_for_months(self, last_12_months):
+        with Session(self.engine) as session:
+            statement = select(Payments)
+            results = session.exec(statement).all()
+
+            value_for_months = []
+            for i in last_12_months:
+                value = 0
+                for result in results:
+                    if result.date.month == i[0] and result.date.year == i[1]:
+                        value += float(result.subscription.valor)
+                value_for_months.append(value)
+            return value_for_months
+
+    def gen_chart(self):
+        last_12_months = self._get_last_12_months()
+        value_for_months = self._get_values_for_months(last_12_months)
+
+        last_12_months2 = []
+        for i in last_12_months:
+            last_12_months2.append(i[0]) 
+
+        import matplotlib.pyplot as plt ##Cria um gráfico, porém precisa de uma interface, por isso instalamos esse biblioteca matplotlib e pyqt5
+    
+
+        plt.plot(last_12_months2, value_for_months)
+        plt.show()
 
 sm = SubscriptionManagement(engine)
-subscription = Subscription(empresa='netflix', site='netflix.com.br', data_assinatura=date.today(), valor= '150')
-sm.create(subscription)
+#subscription = Subscription(empresa='netflix', site='netflix.com.br', data_assinatura=date.today(), valor= '150')
 
-print(sm._get_last_12_months())
+print(sm.gen_chart())
