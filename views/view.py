@@ -2,7 +2,7 @@ import __init__
 from models.database import engine
 from models.model import Subscription, Payments
 from sqlmodel import Session, select
-from datetime import date
+from datetime import date, datetime
 
 class SubscriptionManagement():
     def __init__(self, engine):
@@ -63,6 +63,23 @@ class SubscriptionManagement():
 
         return float(total)
 
+    def _get_last_12_months(self):
+        today = datetime.now()
+        year = today.year
+        month = today.month
+        last_12_months = []
+        for _ in range(12):
+            last_12_months.append((month,year))
+            month -= 1
+            if month == 0:
+                month = 12
+                year -= 1
+        return last_12_months[::-1]
+    
+    def 
+
 sm = SubscriptionManagement(engine)
 subscription = Subscription(empresa='netflix', site='netflix.com.br', data_assinatura=date.today(), valor= '150')
 sm.create(subscription)
+
+print(sm._get_last_12_months())
