@@ -107,4 +107,3 @@ class SubscriptionManagement():
 sm = SubscriptionManagement(engine)
 #subscription = Subscription(empresa='netflix', site='netflix.com.br', data_assinatura=date.today(), valor= '150')
 
-print(sm.gen_chart())
