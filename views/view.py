@@ -17,11 +17,11 @@ class SubscriptionManagement():
     def list_all(self):
         with Session(self.engine) as session:
             statement = select(Subscription) ##Busque os dados da tabela subscription (isso é uma query)
-            result = session.exec(statement) ##o exec é utilizado para executar querys, e estamos falando para executar statement, que vai selecionar a tabela inteira
-            return result
+            results = session.exec(statement).all() ##o exec é utilizado para executar querys, e estamos falando para executar statement, que vai selecionar a tabela inteira
+            return results
 
 sm = SubscriptionManagement(engine)
-subscription = Subscription(empresa='netflix', site='netflix.com.br', data_assinatura=date.today(), valor= '150')
-sm.create(subscription)
+#subscription = Subscription(empresa='netflix', site='netflix.com.br', data_assinatura=date.today(), valor= '150')
+print(sm.list_all())
 
 
