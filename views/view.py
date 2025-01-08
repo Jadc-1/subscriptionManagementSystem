@@ -36,8 +36,8 @@ class SubscriptionManagement():
                 statement_payments = select(Payments).where(Payments.subscription_id == result.id)
                 result_pay = session.exec(statement_payments).all() ##Como eu posso pagar mais de uma vez a assinatura, não vou retornar só 1 valor, mas sim todos
                 for result in result_pay: ##Depois de retornar o valor, para cada retorno, adicionar o status de cancelado
-                    print(result)
                     result.status = "Canceled"
+            print(result)
             session.delete(result)
             session.commit()
         
