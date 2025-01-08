@@ -50,7 +50,7 @@ class UI:
         print("Escolha qual assinatura você deseja excluir: ")
         ##TODO: Quando excluir a assinatura, excluir todos os pagamentos dela
         for i in subscription:
-            print("[{i.id}] -> {i.empresa}")
+            print(f"[{i.id}] -> {i.empresa}")
         excluse = int(input("Escolha a assinatura a ser cancelada: "))
 
         self.subscription_service.delete(excluse)

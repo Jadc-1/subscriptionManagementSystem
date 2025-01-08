@@ -15,3 +15,4 @@ class Payments(SQLModel, table=True):
     subscription_id: int = Field(foreign_key="subscription.id")
     subscription: Subscription = Relationship()## Criamos uma relação entre as duas tabelas, na qual o método relationship, ja vai passar as características da tabela, quando precisar utiliza-la
     date: date
+    status: str = Field(default = 'Active')

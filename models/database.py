@@ -1,4 +1,5 @@
 from sqlmodel import Field, SQLModel, create_engine
+from sqlalchemy import text
 from .model import *
 
 sqlite_file_name = "database.db"
