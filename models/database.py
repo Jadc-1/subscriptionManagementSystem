@@ -8,4 +8,5 @@ sqlite_url = f"sqlite:///{sqlite_file_name}"
 engine = create_engine(sqlite_url, echo=False)
 
 if __name__ == "__main__":
+    SQLModel.metadata.drop_all(engine)
     SQLModel.metadata.create_all(engine)
