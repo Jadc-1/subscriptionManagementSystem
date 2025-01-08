@@ -20,10 +20,24 @@ class SubscriptionManagement():
             results = session.exec(statement).all() ##o exec é utilizado para executar querys, e estamos falando para executar statement, que vai selecionar a tabela inteira
             return results
         
+    def _has_subscription(self, result): ##Verifica se o id do result, que pego no método delete, está na tabela payments, caso esteja, retorno true
+        subscription = result
+        payments = Payments(subscription_id = subscription.id)
+        if subscription.id == payments.subscription_id:
+             return True
+        return False
+    
+
     def delete(self, id):
         with Session(self.engine) as session:
             statement = select(Subscription).where(Subscription.id == id)
             result = session.exec(statement).one()
+            if self._has_subscription(result): ##Caso tenha pagamento, seleciono o id na tabela payments, e mudo o status Active para Canceled
+                statement_payments = select(Payments).where(Payments.subscription_id == result.id)
+                result_pay = session.exec(statement_payments).all() ##Como eu posso pagar mais de uma vez a assinatura, não vou retornar só 1 valor, mas sim todos
+                for result in result_pay: ##Depois de retornar o valor, para cada retorno, adicionar o status de cancelado
+                    result.status = "Canceled"
+            print(result)
             session.delete(result)
             session.commit()
         
@@ -87,9 +101,8 @@ class SubscriptionManagement():
                 for result in results:
                     if result.date.month == i[0] and result.date.year == i[1]:
                         value += float(result.subscription.valor)
-
                 value_for_months.append(value)
-        return value_for_months
+            return value_for_months
 
     def gen_chart(self):
         last_12_months = self._get_last_12_months()

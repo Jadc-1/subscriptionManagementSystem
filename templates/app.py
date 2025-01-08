@@ -34,7 +34,6 @@ class UI:
                     self.subscription_service.gen_chart()
                 case 5:
                     self.pay_subscription()
-                #TODO: Chamar o método pay na interface
                 case _:
                     break
     def add_subscription(self):
@@ -48,9 +47,8 @@ class UI:
     def delete_subscription(self):
         subscription = self.subscription_service.list_all()
         print("Escolha qual assinatura você deseja excluir: ")
-        ##TODO: Quando excluir a assinatura, excluir todos os pagamentos dela
         for i in subscription:
-            print("[{i.id}] -> {i.empresa}")
+            print(f"[{i.id}] -> {i.empresa}")
         excluse = int(input("Escolha a assinatura a ser cancelada: "))
 
         self.subscription_service.delete(excluse)
