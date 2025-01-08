@@ -35,9 +35,8 @@ class SubscriptionManagement():
             if self._has_subscription(result): ##Caso tenha pagamento, seleciono o id na tabela payments, e mudo o status Active para Canceled
                 statement_payments = select(Payments).where(Payments.subscription_id == result.id)
                 result_pay = session.exec(statement_payments).all() ##Como eu posso pagar mais de uma vez a assinatura, não vou retornar só 1 valor, mas sim todos
-                for result in result_pay: ##Depois de retornar o valor, para cada retorno, adicionar o status de cancelado
-                    result.status = "Canceled"
-            print(result)
+                for i in result_pay: ##Depois de retornar o valor, para cada retorno, adicionar o status de cancelado
+                    i.status = "Canceled"
             session.delete(result)
             session.commit()
         
@@ -113,7 +112,7 @@ class SubscriptionManagement():
             last_12_months2.append(i[0]) 
 
         import matplotlib.pyplot as plt ##Cria um gráfico, porém precisa de uma interface, por isso instalamos esse biblioteca matplotlib e pyqt5
-        x_sorted, y_sorted = zip(*sorted(last_12_months2, value_for_months))
+        x_sorted, y_sorted = zip(*sorted(zip(last_12_months2, value_for_months)))
 
         plt.plot(x_sorted, y_sorted)
         plt.show()
