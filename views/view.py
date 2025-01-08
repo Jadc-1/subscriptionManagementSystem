@@ -113,7 +113,6 @@ class SubscriptionManagement():
 
         import matplotlib.pyplot as plt ##Cria um gráfico, porém precisa de uma interface, por isso instalamos esse biblioteca matplotlib e pyqt5
         x_sorted, y_sorted = zip(*sorted(zip(last_12_months2, value_for_months)))
-
         plt.plot(x_sorted, y_sorted)
         plt.show()
 
