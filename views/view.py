@@ -30,7 +30,7 @@ class SubscriptionManagement():
         
     def _has_pay(self, results):  ##colocamos _ quando a função não será acessado por fora
         for result in results:
-            if result.date.month() == date.today().month:
+            if result.date.month == date.today().month:
                 return True
         return False
     
@@ -87,8 +87,9 @@ class SubscriptionManagement():
                 for result in results:
                     if result.date.month == i[0] and result.date.year == i[1]:
                         value += float(result.subscription.valor)
+
                 value_for_months.append(value)
-            return value_for_months
+        return value_for_months
 
     def gen_chart(self):
         last_12_months = self._get_last_12_months()
@@ -99,9 +100,9 @@ class SubscriptionManagement():
             last_12_months2.append(i[0]) 
 
         import matplotlib.pyplot as plt ##Cria um gráfico, porém precisa de uma interface, por isso instalamos esse biblioteca matplotlib e pyqt5
-    
+        x_sorted, y_sorted = zip(*sorted(last_12_months2, value_for_months))
 
-        plt.plot(last_12_months2, value_for_months)
+        plt.plot(x_sorted, y_sorted)
         plt.show()
 
 sm = SubscriptionManagement(engine)
